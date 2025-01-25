@@ -1,0 +1,290 @@
+openapi: 3.0.0
+
+info:
+  title: Workout Tracker API
+  description: >
+    This is an example API for workouts tracking using OpenApi Specification.
+    
+    ---
+    
+    Using this API you can retrieve workout scheduling/plans
+    update workouts, delete sign up users and login.
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    name: Dima Varo
+    url: "http://localhost:{port}"
+    email: dima2191@gmail.com
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  version: 1.0.0
+
+
+servers:
+  - url: '{protocol}://{environment}.example.com/v1'
+    variables:
+      environment:
+        default: api    #  server
+      protocol:
+        default: http
+      
+paths:
+  /report:
+    get:
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: integer
+        - in: query
+          name: datestart
+          format: date
+          schema:
+            type: string
+        - in: query
+          name: dateend
+          format: date
+          schema:
+            type: string
+      summary: make a report of workouts.
+      description: get all the reports of workouts for a userid between those dates.
+      responses:
+      '200':
+        description: An report of a summary of workouts and workouts and exercises included in it in a JSON format
+        content:
+        application/json:
+          components:
+            schemas:
+              WorkoutData:
+                type: object
+                properties:
+                  user:
+                    type: string
+                    example: "Johndoe"
+                  dateRange:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date
+                        example: "2025-01-01"
+                      end:
+                        type: string
+                        format: date
+                        example: "2025-01-12"
+                  summary:
+                    type: object
+                    properties:
+                      totalWorkouts:
+                        type: integer
+                        example: 15
+                      totalExercises:
+                        type: integer
+                        example: 50
+                      mostFrequentWorkout:
+                        type: string
+                        example: "Legs Day"
+                  workouts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          format: date
+                          example: "2025-01-03"
+                        workoutName:
+                          type: string
+                          example: "Legs Day"
+                        exercises:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              exerciseName:
+                                type: string
+                                example: "Squat"
+                              sets:
+                                type: integer
+                                example: 4
+                              reps:
+                                type: integer
+                                example: 12
+                              weight:
+                                type: number
+                                example: 100
+                        notes:
+                          type: string
+                          example: "Felt strong"
+  /schedule/{workoutId}:
+    post:
+      parameters:
+        - in: path
+          name: workoutId
+          schema:
+            type: string
+          description: the workout id for scheduling.
+        - in: query
+          name: datetime
+          format: date
+          schema:
+            type: string
+          description: the date and time when to schedule the workout
+      summary: schedule a workout
+      description: get to schedule date and time of the wanted workout to occur.
+      responses:
+        '200':
+          description: The date and time of the workout was succefully scheduled.
+  /{userId}:
+    get:
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+        - in: query
+          name: status
+          schemas:
+            type: string
+            enum: [active, pending]
+      description: return all workouts for the user by status sorted by datetime
+      responses:
+        '200':
+          description: An array of workouts in JSON format
+          content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workout'
+
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Which status to choose from active/pending
+      tags:
+        - Workouts
+      summary: Return all workouts
+      description: Return all the workouts for that user by status active/pending sorted by date & time.
+      responses:
+        '200':
+          description: An array of workouts in JSON format
+          content:
+          application/json:
+            schema: 
+              type: array
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                exerciseid:
+                  type: integer
+                exercisename:
+                  type: string
+                musclegroup:
+                  type: string
+                reps:
+                  type: string
+                sets:
+                  type: integer
+                weight:
+                  type: string
+                scheduleddate:
+                  type: string
+                status:
+                  type: string
+                  enum: [pending, completed, canceled]
+    post:
+      tags:
+        - Workout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              schema: 
+              type: object
+              properties:
+                name:
+                  type: string
+                exerciseid:
+                  type: integer
+                exercisename:
+                  type: string
+                musclegroup:
+                  type: string
+                reps:
+                  type: string
+                sets:
+                  type: integer
+                weight:
+                  type: string
+                scheduleddate:
+                  type: string
+      responses:
+        '201':
+          description: The request has succeeded and a new resource has been created as a result.
+          content:
+            application/json:
+              schema: 
+                type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                exerciseid:
+                  type: integer
+                exercisename:
+                  type: string
+                musclegroup:
+                  type: string
+                reps:
+                  type: string
+                sets:
+                  type: integer
+                weight:
+                  type: string
+                scheduleddate:
+                  type: string
+                status:
+                  type: string
+                  enum: [pending, completed, canceled]
+  /{workoutid}:
+    update:
+      tags:
+        - Workout
+      summary: update a workout
+      description: Update a workout with workoutId with id.
+      parameters:
+      - name: workoutid
+        in: path
+        required: true
+        description: the workoutid requested by user.
+        schema:
+          type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workout'
+        responses:
+          '200':
+            description: Updated the workout partially.
+    delete:
+      tags:
+        - Workouts
+      summary: Deletes a workout
+      description: Deletes the workout with id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: the workoutId requested by user.
+        schema: string
+      responses:
+        '204':
+          description: The resource was deleted succesfully.
+  

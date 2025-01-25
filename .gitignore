@@ -1,0 +1,106 @@
+# Ignore build and publish outputs
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.swp
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio specific
+.vs/
+.vscode/
+.idea/
+
+# Rider specific
+.idea/
+
+# Auto-generated files
+*.log
+*.tlog
+*.vspscc
+*.pdb
+*.pidb
+*.dll
+*.exe
+*.cache
+*.csproj.user
+*.dbmdl
+*.opendb
+*.msscci
+*.sln.cache
+*.resharper
+*.sln.ide
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+*.lock.json
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Debug and Release folders
+Debug/
+Release/
+x64/
+x86/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+*.rej
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+*.codecov
+coverage.opencover.xml
+
+# Publish outputs
+wwwroot/
+dist/
+publish/
+*.pubxml
+*.pubxml.user
+
+# Azure Pipelines
+*.vsts-ci.yml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE settings
+*.ide
+*.njsproj
+.project
+
+# Environment files
+.env
+.env.*
+
+# JetBrains Rider
+.idea/
+
+# Database files
+*.mdf
+*.ldf
+
+# Secrets and sensitive files
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
