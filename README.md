@@ -1,6 +1,6 @@
 # Workout Tracker API
 
-Welcome to the **Workout Tracker API**! This is a personal project where I've built an API to track workout schedules, exercises, and user data. Along the way, I learned how to use **OpenAPI** for API documentation and testing, and **xUnit** for unit testing to ensure everything works as expected.
+Welcome to the **Workout Tracker API**! This is a personal project where I've built an API to track workout schedules, exercises, and user data. Along the way, I learned how to use **OpenAPI** for API documentation and testing, and **xUnit** for unit testing to ensure everything works as expected.. It was inspired by the [roadmap.sh caching server project](https://roadmap.sh/projects/fitness-workout-tracker).
 
 ---
 
